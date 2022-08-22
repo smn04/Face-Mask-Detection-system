@@ -52,16 +52,13 @@ labels = to_categorical(labels)
 data = np.array(data, dtype="float32")
 labels = np.array(labels)
 
-(trainX, testX, trainY, testY) = train_test_split(data, labels,
-                                                  test_size=0.20, stratify=labels, random_state=42)
+(trainX, testX, trainY, testY) = train_test_split(data, labels,test_size=0.20, stratify=labels, random_state=42)
 
 # construct the training image generator for data augmentation
-aug = ImageDataGenerator(rotation_range=20, zoom_range=0.15, width_shift_range=0.2,
-                         height_shift_range=0.2, shear_range=0.15, horizontal_flip=True, fill_mode="nearest")
+aug = ImageDataGenerator(rotation_range=20, zoom_range=0.15, width_shift_range=0.2,height_shift_range=0.2, shear_range=0.15, horizontal_flip=True, fill_mode="nearest")
 
 # load the MobileNetV2 network, ensuring the head FC layer sets are left off
-baseModel = MobileNetV2(weights="imagenet", include_top=False,
-                        input_tensor=Input(shape=(224, 224, 3)))
+baseModel = MobileNetV2(weights="imagenet", include_top=False,input_tensor=Input(shape=(224, 224, 3)))
 
 # construct the head of the model that will be placed on top of the the base model
 headModel = baseModel.output
