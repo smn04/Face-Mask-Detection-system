@@ -12,8 +12,7 @@ import os
 def detect_and_predict_mask(frame, faceNet, maskNet):
     # grab the dimensions of the frame and then construct a blob from it
     (h, w) = frame.shape[:2]
-    blob = cv2.dnn.blobFromImage(frame, 1.0, (224, 224),
-                                 (104.0, 177.0, 123.0))
+    blob = cv2.dnn.blobFromImage(frame, 1.0, (224, 224),(104.0, 177.0, 123.0))
 
     # pass the blob through the network and obtain the face detections
     faceNet.setInput(blob)
@@ -63,7 +62,7 @@ faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
 maskNet = load_model("mask_detector.model")
 
 # initialize the video stream
-print("[INFO] starting video stream...")
+print("[INFO] video stream starting...")
 vs = VideoStream(src=0).start()
 
 while True:
@@ -76,7 +75,7 @@ while True:
     for (box, pred) in zip(locs, preds):
         (startX, startY, endX, endY) = box
         (mask, withoutMask) = pred
-        label = "Mask" if mask > withoutMask else "No Mask"
+        label = "MASK" if mask > withoutMask else "NO MASK"
         color = (0, 255, 0) if label == "Mask" else (0, 0, 255)
         label = "{}: {:.2f}%".format(label, max(mask, withoutMask) * 100)
         cv2.putText(frame, label, (startX, startY - 10),
